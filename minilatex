@@ -1,0 +1,11 @@
+#!/bin/sh
+IMAGE=secretrobotron/minilatex
+cmd="pdflatex"
+
+if [[ "$1" =~ ^(pdflatex|bibtex)$ ]];
+then
+  cmd=$1
+  shift
+fi
+
+exec docker run --rm -i --entrypoint=$cmd --user="$(id -u):$(id -g)" --net=none -v "$PWD":/data "$IMAGE" "$@"
